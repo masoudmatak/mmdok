@@ -1,7 +1,6 @@
 var Express = require("express");
 var Multer = require("multer");
 var Minio = require("minio");
-var BodyParser = require("body-parser");
 var app = Express();
 
 var minioClient = new Minio.Client({
