@@ -4,8 +4,6 @@ var Minio = require("minio");
 var BodyParser = require("body-parser");
 var app = Express();
 
-//app.use(BodyParser.json({limit: "4mb"}));
-
 var minioClient = new Minio.Client({
     endPoint: 'localhost',
     port: 9000,
