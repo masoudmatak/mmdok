@@ -12,24 +12,24 @@ var minioClient = new Minio.Client({
     secretKey: 'm9emLlQYLHatBTOiK9MBqhz4iitPrxb0QKrqMoia'
 });
 
-app.post("/upload", Multer({storage: Multer.memoryStorage()}).single("upload"), function(request, response) {
-    minioClient.putObject(request.body.bucket, request.file.originalname, request.file.buffer, function(error, etag) {
-		if(error) {
-			return console.log(error);
-		}
+app.post("/upload", Multer({ storage: Multer.memoryStorage() }).single("upload"), function (request, response) {
+    minioClient.putObject(request.body.bucket, request.file.originalname, request.file.buffer, function (error, etag) {
+        if (error) {
+            return console.log(error);
+        }
         response.send(request.file);
     });
 });
 
-app.get("/download", function(request, response) {
-	minioClient.getObject(request.query.bucket, request.query.filename, function(error, stream) {
-        if(error) {
+app.get("/download", function (request, response) {
+    minioClient.getObject(request.query.bucket, request.query.filename, function (error, stream) {
+        if (error) {
             return response.status(500).send(error);
         }
         stream.pipe(response);
-	});
+    });
 });
 
-var server = app.listen(3000, function() {
+var server = app.listen(3000, function () {
     console.log("Listening on port %s...", server.address().port);
 });
