@@ -1,0 +1,17 @@
+{
+  "name": "mmdok",
+  "version": "1.0.0",
+  "description": "mongodb metadata with minio backend",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "masoud&magnus",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "minio": "^7.0.12",
+    "multer": "^1.4.2"
+  }
+}
