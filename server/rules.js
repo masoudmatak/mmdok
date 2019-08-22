@@ -1,9 +1,15 @@
-var R= require('json-logic-js')
+var R = require('json-logic-js')
 
 const operations = {
     READ: 'read',
     WRITE: 'write'
 }
+
+var inlist = function(element, list){ 
+    return list.indexOf(element) > -1
+};
+
+R.add_operation("inlist", inlist);
 
 var permissions = {
 	"or": [{
@@ -13,9 +19,9 @@ var permissions = {
 				}, "G90"]
 			},
 			{
-				"==": [{
+				"inlist": [{
 					"var": "group"
-				}, "Kundservice"]
+				}, ["Kundservice", "KOReadGroup"]]
 			},
 			{
 				"==": [{
@@ -30,14 +36,14 @@ var permissions = {
 				}, "G90"]
 			},
 			{
-				"==": [{
+				"inlist": [{
 					"var": "group"
-				}, "KOUserGroup"]
+				}, ["KOWriteGroup"]]
 			},
 			{
 				"==": [{
 					"var": "operation"
-				}, "read"]
+				}, "write"]
 			}
 		]
 	}]
