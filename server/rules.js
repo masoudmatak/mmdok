@@ -20,7 +20,7 @@ var permissions = {
 			},
 			{
 				"inlist": [{
-					"var": "group"
+					"var": "groups"
 				}, ["Kundservice", "KOReadGroup"]]
 			},
 			{
@@ -37,7 +37,7 @@ var permissions = {
 			},
 			{
 				"inlist": [{
-					"var": "group"
+					"var": "groups"
 				}, ["KOWriteGroup"]]
 			},
 			{
@@ -49,9 +49,9 @@ var permissions = {
 	}]
 }
  
-function isAuthorised(metadata, operation, group){
+function isAuthorised(metadata, operation, groups){
     metadata["operation"] = operation;
-    metadata["group"] = group;
+    metadata["groups"] = groups;
     return R.apply(permissions, metadata);
 }
 
