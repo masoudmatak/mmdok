@@ -6,9 +6,8 @@ const operations = {
 }
 
 var inlist = function(element, list){ 
-    return list.indexOf(element) > -1
+    return list.indexOf(element) > -1;
 };
-
 R.add_operation("inlist", inlist);
 
 var permissions = {
@@ -67,57 +66,5 @@ console.log(result1);
 console.log(result2);
 console.log(result3);
 
-module.exports = isAuthorised;
-/*
+module.exports = {isAuthorised, operations};
 
-var RuleEngine = require('node-rules');
-
-
-var R = new RuleEngine();
-
-var rule1 = {
-    "condition": function (R) {
-        R.when(this.group in {"Kundservice"});
-    },
-    "consequence": function (R) {
-        this.result = false;
-        this.reason = "CustomerId must be set";
-        R.stop();
-    }
-};
-
-var rule2 = {
-    "condition": function (R) {
-        R.when(this.customerid !== "/^[A-Z][3]$/");
-    },
-    "consequence": function (R) {
-        this.result = false;
-        this.reason = "CustomerId has wrong format";
-        R.stop();
-    }
-};
-
-
-R.register(rule1);
-R.register(rule2);
-
-const operations = {
-    READ: 'read',
-    WRITE: 'write'
-}
-
-var fact = {
-    "customerid": "AC123436",
-    "claimid": "FF12345",
-    "operation": "read"
-};
-
-
-R.execute(fact, function (data) {
-    if (data.result) {
-        console.log("Valid transaction");
-    } else {
-        console.log("Blocked Reason:" + data.reason);
-    }
-});
-*/
