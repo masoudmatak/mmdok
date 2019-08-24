@@ -1,4 +1,5 @@
 var R = require('json-logic-js')
+var FS = require('fs')
 
 const operations = {
     READ: 'read',
@@ -56,9 +57,11 @@ var permissions = {
 }
  
 function isAuthorised(metadata, operation, groups){
-    metadata["operation"] = operation;
+	let content = FS.readFileSync('config/permissions/g90.json');
+	let perms = JSON.parse(content);
+	metadata["operation"] = operation;
     metadata["groups"] = groups;
-    return R.apply(permissions, metadata);
+    return R.apply(perms, metadata);
 }
 
 //TEST:
