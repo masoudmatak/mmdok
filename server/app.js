@@ -21,26 +21,18 @@ app.post("/upload", Multer({ storage: Multer.memoryStorage() }).single("upload")
 });
 
 app.get("/download", function (request, response) {
-    let suffix = request.query.filename.split('.').pop();
-    if (suffix != 'pdf' && suffix != 'txt')
-        return response.status(400).send({
-        message: 'Unknown file suffix: ' + suffix
-    });
     minioClient.getObject(request.query.bucket, request.query.filename, function (error, stream) {
         if (error) {
             return response.status(500).send(error);
         }
         let suffix = request.query.filename.split('.').pop();
-        if (suffix === 'pdf')
-            stream.pipe(response).type('application/pdf')
-                .header('Content-type', 'application/pdf')
-                .header('Content-length', stream.length);
-        else
-            stream.pipe(response);
-    
-         
-      
+        if (suffix === 'pdf'){
+               response.setHeader('Content-disposition', 'inline; filename="' + request.query.filename + '"');
+               response.setHeader('Content-type', 'application/pdf');
+        }
+        stream.pipe(response);
     });
+   
 });
 
 var server = app.listen(3000, function () {
