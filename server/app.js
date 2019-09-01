@@ -20,7 +20,7 @@ var minioClient = new Minio.Client({
 });
 
 app.post("/upload", Multer({ storage: Multer.memoryStorage() }).single("upload"), function (request, response) {
-	minioClient.putObject(request.body.bucket, request.file.originalname, request.file.buffer, function (error, etag) {
+	minioClient.putObject(request.body.bucket, request.file.originalname, request.file.buffer, function(error, etag) {
 		if (error) {
 			return console.log(error);
 		}
@@ -33,6 +33,34 @@ app.post("/upload", Multer({ storage: Multer.memoryStorage() }).single("upload")
 		response.send(metadata['_id']);
 	});
 });
+
+app.post("/document", Multer({ storage: Multer.memoryStorage() }).single("upload"), function (request, response) {
+	minioClient.putObject(request.body.bucket, request.file.originalname, request.file.buffer)
+	.then(() => MongoClient.connect(url))
+	.then(client => client.db("mmdok").collection("metadata"))
+	.then(c => { c.insertOne({ _id: uuid(), name: request.file.originalname, bucket: request.body.bucket }); console.log(_id); return _id; })
+	.then(id => { console.log("HEJ!!!!!!!!!!"); console.log(id); response.send(id); } )
+	.catch( error => response.status(500).send(error) )
+});
+
+app.get("/document"), function(request, response){
+	MongoClient.connect(url)
+	.then(client => client.db("mmdok").collection("metadata"))
+	.then(c => c.findOne({ _id: request.query.id }))
+	.then((metadata) => {
+		minioClient.getObject(metadata.bucket, metadata.name, function (error, stream) {
+			if (error) {
+				return response.status(500).send(error);
+			}
+			let suffix = metadata.name.split('.').pop();
+			if (suffix === 'pdf') {
+				response.setHeader('Content-disposition', 'inline; filename="' + metadata.name + '"');
+				response.setHeader('Content-type', 'application/pdf');
+			}
+			stream.pipe(response);		
+		    });
+		});	 
+}
 
 app.get("/download", function (request, response) {
 	var error;
