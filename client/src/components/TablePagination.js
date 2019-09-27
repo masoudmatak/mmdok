@@ -7,21 +7,33 @@ export default class TablePagination extends React.Component {
   constructor() {
     
     super();
-    // create data set of random length
-    this.dataSet = [...Array(Math.ceil(500 + Math.random() * 500))].map(
-      (a, i) => "Record " + (i + 1)
-    );
 
-    this.json = [
+    this.metadata = [
         {'Name': 'Magnus', 'Age': 55, 'Location': 'Bromma'},
         {'Name': 'Masoud', 'Age': 59, 'Location': 'Södermalm'},
         {'Name': 'Stina', 'Age': 30, 'Location': 'Kista'},
         {'Name': 'Olle', 'Age': 87, 'Location': 'Älvsjö'},
-        {'Name': 'Ulla', 'Age': 28, 'Location': 'Kungsholmen'}
+        {'Name': 'Ulla', 'Age': 28, 'Location': 'Kungsholmen'},
+        {'Name': 'Magnus2', 'Age': 45, 'Location': 'Bromma'},
+        {'Name': 'Masoud2', 'Age': 49, 'Location': 'Södermalm'},
+        {'Name': 'Stina2', 'Age': 20, 'Location': 'Kista'},
+        {'Name': 'Olle2', 'Age': 77, 'Location': 'Älvsjö'},
+        {'Name': 'Ulla2', 'Age': 18, 'Location': 'Kungsholmen'},
+        {'Name': 'Magnus3', 'Age': 35, 'Location': 'Bromma'},
+        {'Name': 'Masoud3', 'Age': 39, 'Location': 'Södermalm'},
+        {'Name': 'Stina3', 'Age': 10, 'Location': 'Kista'},
+        {'Name': 'Olle3', 'Age': 67, 'Location': 'Älvsjö'},
+        {'Name': 'Ulla3', 'Age': 18, 'Location': 'Kungsholmen'},
+        {'Name': 'Magnus4', 'Age': 25, 'Location': 'Bromma'},
+        {'Name': 'Masoud4', 'Age': 29, 'Location': 'Södermalm'},
+        {'Name': 'Stina4', 'Age': 0, 'Location': 'Kista'},
+        {'Name': 'Olle4', 'Age': 57, 'Location': 'Älvsjö'},
+        {'Name': 'Ulla4', 'Age': 8, 'Location': 'Kungsholmen'},
+        {'Name': 'Ulla5', 'Age': 7, 'Location': 'Kungsholmen'}
     ]
 
-    this.pageSize = 50;
-    this.pagesCount = Math.ceil(this.dataSet.length / this.pageSize);
+    this.pageSize = 5;
+    this.pagesCount = Math.ceil(this.metadata.length / this.pageSize);
 
     this.state = {
       currentPage: 0
@@ -40,13 +52,13 @@ export default class TablePagination extends React.Component {
   }
 
   render() {
-    
+0    
     const { currentPage } = this.state;
 
     return (
     
-      <React.Fragment>
-      
+      <Fragment>
+        <Datatable data={this.metadata.slice(currentPage * this.pageSize, (currentPage + 1) * this.pageSize)}/>     
         <div className="pagination-wrapper">
           
           <Pagination aria-label="Page navigation example">
@@ -82,26 +94,8 @@ export default class TablePagination extends React.Component {
           </Pagination>
           
         </div>
-        <Datatable data={this.json}/>
-          {
-            
-              this.dataSet
-            .slice(
-              currentPage * this.pageSize,
-              (currentPage + 1) * this.pageSize
-            )
-            .map((data, i) => 
-            
-              <div className="data-slice" key={i}>
-                {data}
-              </div>
-            )
-            
-          }
-         
-        
 
-      </React.Fragment>
+      </Fragment>
     
     );
   
