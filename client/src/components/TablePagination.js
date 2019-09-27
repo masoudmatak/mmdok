@@ -52,9 +52,12 @@ export default class TablePagination extends React.Component {
 
     return (  
       <Fragment>
-        <Datatable data={this.metadata.slice(currentPage * this.pageSize, (currentPage + 1) * this.pageSize)}/>     
+
+        <Datatable data={this.metadata.slice(currentPage * this.pageSize, (currentPage + 1) * this.pageSize)}/>  
+
         <div className="pagination-wrapper">        
           <Pagination>
+              
             <PaginationItem disabled={currentPage <= 0}>
               <PaginationLink
                 onClick={e => this.handleClick(e, currentPage - 1)}
@@ -80,15 +83,11 @@ export default class TablePagination extends React.Component {
             </PaginationItem>
             
           </Pagination>
-          
         </div>
 
       </Fragment>
-    
     );
-  
   }
-  
 }
 
 
