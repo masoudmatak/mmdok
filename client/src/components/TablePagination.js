@@ -38,39 +38,29 @@ export default class TablePagination extends React.Component {
     this.state = {
       currentPage: 0
     };
-    
   }
 
-  handleClick(e, index) {
-    
+  handleClick(e, index) {   
     e.preventDefault();
-
     this.setState({
       currentPage: index
     });
-    
   }
 
   render() {
-0    
     const { currentPage } = this.state;
 
-    return (
-    
+    return (  
       <Fragment>
         <Datatable data={this.metadata.slice(currentPage * this.pageSize, (currentPage + 1) * this.pageSize)}/>     
-        <div className="pagination-wrapper">
-          
-          <Pagination aria-label="Page navigation example">
-            
+        <div className="pagination-wrapper">        
+          <Pagination>
             <PaginationItem disabled={currentPage <= 0}>
-              
               <PaginationLink
                 onClick={e => this.handleClick(e, currentPage - 1)}
                 previous
                 href="#"
               />
-              
             </PaginationItem>
 
             {[...Array(this.pagesCount)].map((page, i) => 
@@ -81,14 +71,12 @@ export default class TablePagination extends React.Component {
               </PaginationItem>
             )}
 
-            <PaginationItem disabled={currentPage >= this.pagesCount - 1}>
-              
+            <PaginationItem disabled={currentPage >= this.pagesCount - 1}>        
               <PaginationLink
                 onClick={e => this.handleClick(e, currentPage + 1)}
                 next
                 href="#"
               />
-              
             </PaginationItem>
             
           </Pagination>
