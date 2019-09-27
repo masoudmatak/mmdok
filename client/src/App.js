@@ -7,7 +7,7 @@ import Header from './components/Header';
 import SideCard from './components/SideCard';
 import FileDrop from './components/Filedrop';
 import Datatable from './components/Datatable';
-
+import TablePagination from './components/TablePagination';
 
 const App = () => (
 	<Fragment>
@@ -19,7 +19,7 @@ const App = () => (
 						<FileDrop />
 					</Col>
 					<Col xs={{ order: 1 }} md={{ size: 7, offset: 1 }} tag="section" className="py-5 mb-5 py-md-0 mb-md-0">
-						<Datatable />
+						<TablePagination />
 					</Col>
 				</Row>
 			</Container>

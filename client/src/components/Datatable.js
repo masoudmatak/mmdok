@@ -1,39 +1,52 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Table } from 'reactstrap';
+import TablePagination from './TablePagination';
 
-export default class Example extends React.Component {
+export default class DataTables extends React.Component {
+  constructor(props) {
+    super(props);
+    this.getHeader = this.getHeader.bind(this);
+    this.getRowsData = this.getRowsData.bind(this);
+    this.getKeys = this.getKeys.bind(this);
+  }
+
+  getKeys = () => Object.keys(this.props.data[0]);
+
+  getHeader = () => {
+    var keys = this.getKeys();
+    return keys.map((key, index) => {
+      return <th key={key}>{key.toUpperCase()}</th>
+    })
+  }
+
+  getRowsData = () => {
+    var items = this.props.data;
+    var keys = this.getKeys();
+    return items.map((row, index) => {
+      return <tr key={index}><RenderRow key={index} data={row} keys={keys} /></tr>
+    })
+  }
+
   render() {
     return (
-      <Table striped>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-          </tr>
-        </tbody>
-      </Table>
+      <div>
+        <Table striped>
+          <thead>
+            <tr>{this.getHeader()}</tr>
+          </thead>
+          <tbody>
+            {this.getRowsData()}
+          </tbody>
+        </Table>
+      </div>
+
     );
   }
+}
+
+
+const RenderRow = (props) => {
+  return props.keys.map((key, index) => {
+    return <td key={props.data[key]}>{props.data[key]}</td>
+  })
 }
