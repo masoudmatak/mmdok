@@ -1,24 +1,25 @@
-import React, { Fragment } from 'react';
+import React, { Component } from 'react';
 import { Table } from 'reactstrap';
 
-export default class DataTables extends React.Component {
+export default class DataTable extends Component {
+
   constructor(props) {
     super(props);
     this.data = this.props.data;
-    //this.getHeader = this.getHeader.bind(this);
-    //this.getRowsData = this.getRowsData.bind(this);
-    //this.getKeys = this.getKeys.bind(this);
+    this.sort = this.props.sort;
+    this.reset = this.props.reset;
+    this.sortOrder = Array(this.getKeys().length).fill(true);
   }
 
-  handleClick(e, index) {   
+  handleClick = (e, index) => {   
     e.preventDefault();
-    let key = this.getKeys()[index]
-    this.data = this.props.sort(this.getKeys()[index], this.data);
-    this.props.reset();
+    this.sort(this.getKeys()[index], this.sortOrder[index]);
+    this.sortOrder[index] = !this.sortOrder[index];
+    //this.reset();
   }
 
   getKeys = () => {
-    return Object.keys(this.data[0]);
+    return Object.keys(this.data()[0]);
   }
 
   getHeader = () => {
@@ -30,15 +31,16 @@ export default class DataTables extends React.Component {
     })
   }
 
-  getRowsData = () => {
-    var items = this.data;
+  getRows = () => {
+    var items = this.data();
     var keys = this.getKeys();
     return items.map((row, index) => {
       return <tr key={index}><RenderRow key={index} data={row} keys={keys} /></tr>
     })
   }
 
-  render() {
+  render = () => {
+    
     return (
       <div>
         <Table striped>
@@ -46,7 +48,7 @@ export default class DataTables extends React.Component {
             <tr>{this.getHeader()}</tr>
           </thead>
           <tbody>
-            {this.getRowsData()}
+            {this.getRows()}
           </tbody>
         </Table>
       </div>

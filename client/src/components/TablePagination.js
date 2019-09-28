@@ -38,81 +38,74 @@ export default class TablePagination extends Component {
     ];
 
     this.state = {
-      currentPage: 0,
+      currentPageNo: 0,
       metadata: this.metadata
     };
 
     this.pageSize = 8;
-    this.pagesCount = Math.ceil(this.metadata.length / this.pageSize);
-
+    this.pagesCount = Math.ceil(this.metadata.length / this.pageSize)
   }
 
   handleClick = (e, index) => {
     e.preventDefault();
-    this.setState({
-      currentPage: index
-    });
+    this.setState({ currentPageNo: index });
   }
 
-  getCurrentPage = () => {
+  currentPage = () => {
     return this.metadata.slice(
-      this.state.currentPage * this.pageSize,
-      (this.state.currentPage + 1) * this.pageSize)  
+      this.state.currentPageNo * this.pageSize,
+      (this.state.currentPageNo + 1) * this.pageSize)  
   }
 
-  sortByColumn = (column) => {
+  sort = (column, order) => {
     this.metadata = [...this.state.metadata];
     this.metadata.sort(sortFunction);
-    return this.getCurrentPage();
+    this.setState({ currentPageNo: 0, metadata: this.metadata });
 
     function sortFunction(a, b) {
       a = a[column];
       b = b[column];
-      return isNaN(a - b) ? (a === b) ? 0 : (a < b) ? -1 : 1 : a - b;
+      let cmp = isNaN(a - b) ? (a === b) ? 0 : (a < b) ? -1 : 1 : a - b;
+      return order ? cmp : cmp*-1;
     }
   }
 
-  reset = () => {
-    this.setState({ currentPage: 0, metadata: this.metadata });
+  data = () => {
+    return this.getCurrentPage();
   }
 
   render = () => {
-    const currentPage = this.state.currentPage;
-
+    const currentPageNo = this.state.currentPageNo;
     return (
       <Fragment>
 
         <Datatable
-          data={this.state.metadata.slice(
-            currentPage * this.pageSize,
-            (currentPage + 1) * this.pageSize)
-          }
-          sort={this.sortByColumn}
-          reset={this.reset}
+          data={this.currentPage}
+          sort={this.sort}
         />
 
         <div className="pagination-wrapper">
           <Pagination>
 
-            <PaginationItem disabled={currentPage <= 0}>
+            <PaginationItem disabled={currentPageNo <= 0}>
               <PaginationLink
-                onClick={e => this.handleClick(e, currentPage - 1)}
+                onClick={e => this.handleClick(e, currentPageNo - 1)}
                 previous
                 href="#"
               />
             </PaginationItem>
 
             {[...Array(this.pagesCount)].map((page, i) =>
-              <PaginationItem active={i === currentPage} key={i}>
+              <PaginationItem active={i === currentPageNo} key={i}>
                 <PaginationLink onClick={e => this.handleClick(e, i)} href="#">
                   {i + 1}
                 </PaginationLink>
               </PaginationItem>
             )}
 
-            <PaginationItem disabled={currentPage >= this.pagesCount - 1}>
+            <PaginationItem disabled={currentPageNo >= this.pagesCount - 1}>
               <PaginationLink
-                onClick={e => this.handleClick(e, currentPage + 1)}
+                onClick={e => this.handleClick(e, currentPageNo + 1)}
                 next
                 href="#"
               />
