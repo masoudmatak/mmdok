@@ -7,28 +7,36 @@ class MyModal extends React.Component {
     super(props);
     this.state = {
       modal: false,
-      size: 'modal-xl'
+      size: 'modal-xl',
+      body: ''
     };
 
     this.toggle = this.toggle.bind(this);
   }
 
-  toggle() {
+  toggle(data) {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      body: this.getMetata(data)
     });
   }
 //        <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
+
+  getMetata(data){
+    return <table>
+      <tr><td>Metadata1:</td><td>Värde1</td></tr>
+      <tr><td>Metadata2:</td><td>Värde2</td></tr>
+      <tr><td>Metadata3:</td><td>Värde3</td></tr>
+    </table>
+  }
 
   render() {
     return (
       <div>
         <Modal isOpen={this.state.modal} toggle={this.toggle} >
-          <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Dokumenttitel</ModalHeader>
           <ModalBody>
-             Metadata1 : Värde1 <br/>
-             Metadata1 : Värde1 <br/>
-             Metadata1 : Värde1
+            {this.state.body}
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={this.toggle}>Visa dokument</Button>{' '}

@@ -118,7 +118,7 @@ export default class TablePagination extends Component {
 
     this.state = {
       currentPageNo: 0,
-      metadata: testdata2
+      metadata: testdata
     };
 
     this.pageSize = 5;

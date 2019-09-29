@@ -14,13 +14,24 @@ export default class DataTable extends Component {
 
   handleClick = (e, index) => {   
     e.preventDefault();
-
     this.sort(this.getKeys()[index], this.sortOrder[index]);
     this.sortOrder[index] = !this.sortOrder[index];
   }
 
-  handleRowClick = (e, index) => {   
-    this.refs.modal.toggle();
+  OnRowClick (row) {
+    alert('hej:' + row);
+  }
+
+  handleRowClick = (e, index) => {  
+    /*
+    const o = this.data()[index];
+    for (var property in o) {
+      if (!o.hasOwnProperty(property)) continue;
+        alert(property + ': ' + o[property]);
+   }
+    alert(this.data()[index]['Name']); 
+    */
+    this.refs.modal.toggle(this.data()[index]);
   }
 
   getKeys = () => {
