@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../logo.svg';
+import logo from '../edoklogo.jpg';
 
 import {
   Container, Row, Col, Form, Input, Button, Navbar, Nav,
