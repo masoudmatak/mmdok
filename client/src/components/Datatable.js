@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Table } from 'reactstrap';
+import Modal from './Modal';
 
 export default class DataTable extends Component {
 
@@ -13,20 +14,24 @@ export default class DataTable extends Component {
 
   handleClick = (e, index) => {   
     e.preventDefault();
+
     this.sort(this.getKeys()[index], this.sortOrder[index]);
     this.sortOrder[index] = !this.sortOrder[index];
-    //this.reset();
+  }
+
+  handleRowClick = (e, index) => {   
+    this.refs.modal.toggle();
   }
 
   getKeys = () => {
-    return Object.keys(this.data()[0]);
+    return Object.keys(this.data()[0]).filter((key) => key != 'imageUrl');
   }
 
   getHeader = () => {
     var keys = this.getKeys();
     return keys.map((key, index) => {
       return <th onClick={e => this.handleClick(e, index)} key={key}>
-              {key.toUpperCase()}
+              {key.toUpperCase().substring(0,)}
               </th>
     })
   }
@@ -35,15 +40,15 @@ export default class DataTable extends Component {
     var items = this.data();
     var keys = this.getKeys();
     return items.map((row, index) => {
-      return <tr key={index}><RenderRow key={index} data={row} keys={keys} /></tr>
+        return <tr key={index}><RenderRow key={index} data={row} keys={keys} callback={this.handleRowClick}/></tr>
     })
   }
 
-  render = () => {
-    
+  render = () => {  
     return (
+      <Fragment>
       <div>
-        <Table striped>
+        <Table striped hover>
           <thead>
             <tr>{this.getHeader()}</tr>
           </thead>
@@ -52,14 +57,19 @@ export default class DataTable extends Component {
           </tbody>
         </Table>
       </div>
-
+      <Modal buttonLabel = "Click me" ref='modal'/>
+      </Fragment>
     );
   }
 }
 
-
+const tdStyle = {
+  whiteSpace: 'normal',
+  wordWrap: 'break-word'
+};
 const RenderRow = (props) => {
   return props.keys.map((key, index) => {
-    return <td key={props.data[key]}>{props.data[key]}</td>
+    return <td key={key} style={tdStyle} onClick={e => props.callback(e, index)}>{props.data[key]}</td>
+    //return <td key={props.data[key]}>{props.data[key].substring(0,8)}</td>
   })
 }
