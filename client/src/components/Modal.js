@@ -20,14 +20,31 @@ class MyModal extends React.Component {
       body: this.getMetata(data)
     });
   }
+
+  hide = () => {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
 //        <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
+
+
+  getTableContent(data){
+    const arr = [];
+    for (var property in data) {
+      arr.push(<tr><td style={{textAlign: "right"}}>{property}:</td><td style={{textAlign: "left"}}>{data[property]}</td></tr>);
+    }
+    return arr.map((row, index) => {
+      return row
+    })
+  }
+
 
   getMetata(data){
     return <table>
-      <tr><td>Metadata1:</td><td>Värde1</td></tr>
-      <tr><td>Metadata2:</td><td>Värde2</td></tr>
-      <tr><td>Metadata3:</td><td>Värde3</td></tr>
-    </table>
+      {this.getTableContent(data)}
+         </table>
+
   }
 
   render() {
@@ -39,8 +56,8 @@ class MyModal extends React.Component {
             {this.state.body}
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.toggle}>Visa dokument</Button>{' '}
-            <Button color="secondary" onClick={this.toggle}>Stäng</Button>
+            <Button color="primary" onClick={this.hide}>Visa dokument</Button>{' '}
+            <Button color="secondary" onClick={this.hide}>Stäng</Button>
           </ModalFooter>
         </Modal>
       </div>

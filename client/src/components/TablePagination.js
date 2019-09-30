@@ -118,17 +118,17 @@ export default class TablePagination extends Component {
 
     this.state = {
       currentPageNo: 0,
-      metadata: testdata
+      metadata: testdata2
     };
 
-    this.pageSize = 5;
+    this.pageSize = 50;
     this.pagesCount = Math.ceil(this.state.metadata.length / this.pageSize)
   }
 
   componentDidMount() {
-    axios.get('http://mmdok133801.appspot.com/api/documents')
-      .then(response => this.setState({ metadata: response.data['items'] }))
-      .catch(error => { console.log(error.message); });
+    axios.get('http://jsonplaceholder.typicode.com/todos')
+    .then(response => { this.setState({ metadata: response.data }); this.pagesCount = Math.ceil(this.state.metadata.length / this.pageSize) } )
+      .catch(error => { console.log(error.message); })
   }
 
   handleClick = (e, index) => {

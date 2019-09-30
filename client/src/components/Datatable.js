@@ -18,20 +18,14 @@ export default class DataTable extends Component {
     this.sortOrder[index] = !this.sortOrder[index];
   }
 
-  OnRowClick (row) {
-    alert('hej:' + row);
-  }
-
-  handleRowClick = (e, index) => {  
-    /*
-    const o = this.data()[index];
+  handleRowClick = (rowIndex) => {  
+    const o = this.data()[rowIndex];
+    const metadata = {};
     for (var property in o) {
       if (!o.hasOwnProperty(property)) continue;
-        alert(property + ': ' + o[property]);
-   }
-    alert(this.data()[index]['Name']); 
-    */
-    this.refs.modal.toggle(this.data()[index]);
+        metadata[property] = o[property];
+    }
+    this.refs.modal.toggle(metadata);
   }
 
   getKeys = () => {
@@ -51,7 +45,7 @@ export default class DataTable extends Component {
     var items = this.data();
     var keys = this.getKeys();
     return items.map((row, index) => {
-        return <tr key={index}><RenderRow key={index} data={row} keys={keys} callback={this.handleRowClick}/></tr>
+        return <tr key={index}><RenderRow key={index} row={index} data={row} keys={keys} callback={this.handleRowClick}/></tr>
     })
   }
 
@@ -80,7 +74,7 @@ const tdStyle = {
 };
 const RenderRow = (props) => {
   return props.keys.map((key, index) => {
-    return <td key={key} style={tdStyle} onClick={e => props.callback(e, index)}>{props.data[key]}</td>
+    return <td key={key} style={tdStyle} onClick={e => props.callback(props.row)}>{props.data[key]}</td>
     //return <td key={props.data[key]}>{props.data[key].substring(0,8)}</td>
   })
 }
